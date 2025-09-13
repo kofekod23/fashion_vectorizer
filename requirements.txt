@@ -1,0 +1,12 @@
+streamlit
+pillow
+numpy
+pandas
+torch
+torchvision
+transformers
+accelerate
+tqdm
+scipy
+weaviate-client
+sentence-transformers
