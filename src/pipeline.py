@@ -29,10 +29,14 @@ def fclip_embed_image(img):
 
 def fclip_embed_image_with_label(img, label):
     prompt = f"photo of a {label}"
+    # Génère les inputs pour images ET texte
     inputs = FCLIP_PROC(images=img, text=prompt, return_tensors="pt", padding=True, truncation=True)
-    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
-    feats = FCLIP_MODEL.get_image_features(**inputs)
+    # Récupère SEULEMENT le batch images, tokenize aussi le texte si tu veux get_text_features
+    pixel_values = inputs['pixel_values'].to(DEVICE)
+    # Donne SEULEMENT les pixel_values à get_image_features
+    feats = FCLIP_MODEL.get_image_features(pixel_values=pixel_values)
     return feats.squeeze(0).detach().cpu().numpy().astype("float32")
+
 
 def vit_embed_image(img):
     inputs = VIT_PROC(images=img, return_tensors="pt")
