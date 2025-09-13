@@ -39,6 +39,9 @@ def fclip_embed_image_with_label(img, label):
 
 
 def vit_embed_image(img):
+    # conversion systématique en RGB
+    if img.mode != "RGB":
+        img = img.convert("RGB")
     inputs = VIT_PROC(images=img, return_tensors="pt")
     inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
     out = VIT_MODEL(**inputs)
