@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from PIL import Image
 from src.pipeline import process_one_image
 from src.weaviate_utils import connect_weaviate, create_collections_if_needed, insert_tenue, insert_vetement
-
+from dotenv import load_dotenv  # charge les variables d'environnement du .env si dispo
 load_dotenv()  # charge les variables d'environnement du .env si dispo
 
 def extract_zip(uploaded_zip, out_dir):
