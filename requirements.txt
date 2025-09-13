@@ -10,3 +10,4 @@ tqdm
 scipy
 weaviate-client
 sentence-transformers
+python-dotenv
