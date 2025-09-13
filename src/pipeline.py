@@ -22,25 +22,36 @@ FCLIP_MODEL, FCLIP_PROC, VIT_MODEL, VIT_PROC, SEGFORMER_PROC, SEGFORMER_MODEL = 
 SEG_CATEGORIES = {4: "Upper_clothes", 5: "Skirt", 6: "Pants", 7: "Dress"}
 
 def fclip_embed_image(img):
-    inputs = FCLIP_PROC(images=img, return_tensors="pt").to(DEVICE)
+    inputs = FCLIP_PROC(images=img, return_tensors="pt")
+    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
     feats = FCLIP_MODEL.get_image_features(**inputs)
     return feats.squeeze(0).detach().cpu().numpy().astype("float32")
 
 def fclip_embed_image_with_label(img, label):
     prompt = f"photo of a {label}"
-    inputs = FCLIP_PROC(images=img, text=prompt, return_tensors="pt", padding=True, truncation=True).to(DEVICE)
+    inputs = FCLIP_PROC(images=img, text=prompt, return_tensors="pt", padding=True, truncation=True)
+    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
     feats = FCLIP_MODEL.get_image_features(**inputs)
     return feats.squeeze(0).detach().cpu().numpy().astype("float32")
 
 def vit_embed_image(img):
-    inputs = VIT_PROC(images=img, return_tensors="pt").to(DEVICE)
+    inputs = VIT_PROC(images=img, return_tensors="pt")
+    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
     out = VIT_MODEL(**inputs)
     feats = out.pooler_output if out.pooler_output is not None else out.last_hidden_state[:, 0]
     return feats.squeeze(0).detach().cpu().numpy().astype("float32")
 
 def segment_tous_les_objets(img_pil):
     img_resized = img_pil.resize((512, 512))
-    inputs = SEGFORMER_PROC(images=img_resized, return_tensors='pt').to(DEVICE)
+    inputs = SEGFORMER_PROC(images=img_resized, return_tensors='pt')
+    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
+    with torch.no_grad():
+        logits = SEGFORMER_MODEL(**inputs).logits
+
+def segment_tous_les_objets(img_pil):
+    img_resized = img_pil.resize((512, 512))
+    inputs = SEGFORMER_PROC(images=img_resized, return_tensors='pt')
+    inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
     with torch.no_grad():
         logits = SEGFORMER_MODEL(**inputs).logits
     seg = torch.nn.functional.interpolate(
@@ -68,6 +79,7 @@ def segment_tous_les_objets(img_pil):
         else:
             crop_pil = Image.fromarray(crop_np)
         yield (cat_name, crop_pil)
+
 
 def process_one_image(img, original_filename):
     """
