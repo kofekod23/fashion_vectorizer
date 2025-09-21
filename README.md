@@ -3,7 +3,7 @@
 ## Présentation
 
 Ce projet propose un pipeline complet pour :
-- **Uploader un ZIP d’images de tenues**
+- **Uploader un ZIP d’images de tenues (images qui serviront de référenciel "tendance mode"**
 - Détecter, segmenter et cropper automatiquement chaque vêtement (SegFormer)
 - Générer leurs embeddings (FashionCLIP + ViT)
 - Organiser les résultats (fichiers, labels, embeddings, CSV…)
