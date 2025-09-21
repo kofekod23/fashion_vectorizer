@@ -1,3 +1,43 @@
+# 👗🧥 AI Pipeline Outfits/Clothes – CLIP, ViT, SegFormer, Weaviate & Streamlit 🛠️
+
+## Overview
+
+This project provides a complete pipeline to:
+- **Upload a ZIP of outfit images (used as a "fashion trend" reference set)**
+- Automatically detect, segment, and crop each garment (SegFormer)
+- Generate their embeddings (FashionCLIP + ViT)
+- Organize the results (files, labels, embeddings, CSV…)
+- Save predictions and *populate a Weaviate database* (multi-vector/semantic + image search fusion)
+- Visualize the entire pipeline in a simple **Streamlit** app
+
+Suitable for R&D needs (dataset creation, model testing, search engine, etc.).
+
+---
+
+## Features
+
+- **Upload ZIP** of outfit photos (fashion dataset mode)
+- **Automatic detection** of garments (SegFormer specialized for clothing)
+- **Direct textile cropping and labeling** (top/bottom/dress/pants, etc.)
+- **Multimodal embeddings** (FashionCLIP + ViT) ready for vector-db
+- **Export files, CSV, crops**
+- **Weaviate DB insertion** (collections [Outfits](#collections) & [Clothes](#collections))
+- **Interactive visual dashboard (Streamlit)**
+
+---
+
+## Installation
+
+### Requirements
+
+- Python 3.9+
+- (Optional) GPU/CUDA access if you have a GPU (highly recommended!)
+- pip installed
+
+### Install dependencies
+
+
+
 # 👗🧥 Pipeline IA Tenues/Vêtements – CLIP, ViT, SegFormer, Weaviate & Streamlit 🛠️
 
 ## Présentation
